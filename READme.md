@@ -54,6 +54,33 @@ Once the environment is set up, you can proceed with training the model:
 # Model Export
 The model will be exported to the specified directory (/output/inference/license_plate_model). You can use this exported model for inference on new license plate images.
 
+```bash
+!python3 PaddleOCR/tools/export_model.py -c paddleocr_training/config.yml -o Global.pretrained_model=/output/rec_ppocr_v4/best_accuracy  Global.save_inference_dir=/output/inference/license_plate_mode
+```
+## Inference Image
+After exporting the model to an inference model we can use package PaddleOCR for inference
+
+```bash
+# Path to the image
+img_path = 'CN498JC.png'
+
+# Initialize the OCR model
+ocr = PaddleOCR(use_angle_cls=True, use_gpu=True, rec_model_dir="/output/inference/license_plate_mode/inference")
+
+# Perform OCR
+result = ocr.ocr(img_path, det=True, rec=True, cls=False)[0]
+
+# Visualize the result
+im_show = draw_ocr(image, boxes, txts, scores, font_path='PaddleOCR/doc/fonts/simfang.ttf', drop_score=0.7)
+
+# Display the image with OCR result
+plt.figure(figsize=(10, 10))
+plt.imshow(im_show)
+plt.axis('off')  # Hide axes
+plt.show()
+```
+![Inference_image](Inference_image.png)
+
 ## Results
 The training metrics over time are visualized in the provided images:
 
@@ -69,5 +96,15 @@ The training metrics over time are visualized in the provided images:
 
 The results show that the model achieves high accuracy and low edit distance on the license plate recognition task after training for multiple epochs.
 
+## Output example
+![output1](output1.png)
+*Image 1*
+
+![output2](output2.png)
+*Image 2*
+
+![output3](output3.png)
+
+*Image 3*
 ## Conclusion
 This project demonstrates the end-to-end workflow for training a license plate recognition model using PaddleOCR. For a more in-depth understanding of the project and the code, please refer to the `License_plate_with_paddle_OCR.ipynb` notebook, which provides detailed explanations and analysis.
