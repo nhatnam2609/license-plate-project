@@ -1,0 +1,135 @@
+{
+  "Architecture": {
+    "model_type": "rec",
+    "algorithm": "CRNN",
+    "Transform": null,
+    "Backbone": {
+      "name": "ResNet",
+      "layers": 34
+    },
+    "Neck": {
+      "name": "SequenceEncoder",
+      "encoder_type": "rnn",
+      "hidden_size": 256
+    },
+    "Head": {
+      "name": "CTCHead",
+      "fc_decay": 0.0004
+    }
+  },
+  "Loss": {
+    "name": "CTCLoss"
+  },
+  "Optimizer": {
+    "name": "Adam",
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "lr": {
+      "name": "Cosine",
+      "learning_rate": 0.001,
+      "warmup_epoch": 5
+    }
+  },
+  "Train": {
+    "dataset": {
+      "name": "SimpleDataSet",
+      "data_dir": "dataset/",
+      "label_file_list": [
+        # "train_list.txt"
+        paddleocr_training/train_list.txt
+      ],
+      "transforms": [
+        {
+          "DecodeImage": {
+            "img_mode": "RGB",
+            "channel_first": false
+          }
+        },
+        {
+          "RecResizeImg": {
+            "image_shape": [
+              3,
+              32,
+              100
+            ]
+          }
+        },
+        {
+          "KeepKeys": {
+            "keep_keys": [
+              "image",
+              "label"
+            ]
+          }
+        }
+      ]
+    },
+    "loader": {
+      "batch_size_per_card": 32,
+      "drop_last": true,
+      "num_workers": 4,
+      "shuffle": true
+    }
+  },
+  "Eval": {
+    "dataset": {
+      "name": "SimpleDataSet",
+      "data_dir": "dataset/",
+      "label_file_list": [
+        "paddleocr_training/val_list.txt"
+      ],
+      "transforms": [
+        {
+          "DecodeImage": {
+            "img_mode": "RGB",
+            "channel_first": false
+          }
+        },
+        {
+          "RecResizeImg": {
+            "image_shape": [
+              3,
+              32,
+              100
+            ]
+          }
+        },
+        {
+          "KeepKeys": {
+            "keep_keys": [
+              "image",
+              "label"
+            ]
+          }
+        }
+      ]
+    },
+    "loader": {
+      "batch_size_per_card": 32,
+      "drop_last": false,
+      "num_workers": 4,
+      "shuffle": false
+    }
+  },
+  "Global": {
+    "epoch_num": 100,
+    "save_model_dir": "./output/rec_crnn",
+    "save_epoch_step": 5,
+    "eval_batch_step": [
+      0,
+      2000
+    ],
+    "cal_metric_during_train": true,
+    "pretrained_model": "./pretrain_models/CRNN/best_accuracy",
+    "checkpoints": null,
+    "save_inference_dir": null,
+    "use_visualdl": true,
+    "class_num": 38,
+    "character_dict_path": "paddleocr_training/dict.txt",
+    "character_type": "ch",
+    "use_space_char": false
+  },
+  "PostProcess": {
+    "name": "CTCLabelDecode"  
+}
+}
