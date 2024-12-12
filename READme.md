@@ -79,31 +79,31 @@ plt.imshow(im_show)
 plt.axis('off')  # Hide axes
 plt.show()
 ```
-![Inference_image](Inference_image.png)
+![Inference_image](images/Inference_image.png)
 
 ## Results
 The training metrics over time are visualized in the provided images:
 
-![Training Metrics](Training_accuracy.png)
+![Training Metrics](images/Training_accuracy.png)
 *Image 1: Training metrics (accuracy, norm edit distance, loss) over epochs*
 
-![Loss Components](Loss_Components.png)
+![Loss Components](images/Loss_Components.png)
 *Image 2: Loss components (CTC loss, NRTR loss, total loss) over epochs*
 
-![Evaluation Metrics](Evaluation_Metrics.png)
+![Evaluation Metrics](images/Evaluation_Metrics.png)
 
 *Image 3: Evaluation metrics (accuracy, norm edit distance) over evaluation steps*
 
 The results show that the model achieves high accuracy and low edit distance on the license plate recognition task after training for multiple epochs.
 
 ## Output example
-![output1](output1.png)
+![output1](images/output1.png)
 *Image 1*
 
-![output2](output2.png)
+![output2](images/output2.png)
 *Image 2*
 
-![output3](output3.png)
+![output3](images/output3.png)
 
 *Image 3*
 ## Conclusion
